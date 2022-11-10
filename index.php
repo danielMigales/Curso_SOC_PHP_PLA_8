@@ -11,12 +11,27 @@ require 'conexion.php';
 require 'altaPersona.php';
 //fichero con funcion de consulta de todos los datos de la tabla personas de la BBDD
 require 'consultaPersonas.php';
+//fichero con funcion de consulta de una persona de la tabla personas de la BBDD
+require 'consultaPersona.php';
+
 
 //ALTA
+//detectar pulsacion de boton alta
 if (isset($_POST['alta'])) {
 	try {
-		//efecturar validacion de datos e insertar registro en BBDD
+		//llamada a la funcion de alta de personas
 		altaPersona();
+	} catch (Exception $e) {
+		$errores = $e->getMessage();
+	}
+}
+
+//CONSULTA DE UNA PERSONA DE LA TABLA
+//detectar pulsacion de un registro de la tabla
+if (isset($_POST['consulta'])) {
+	try {
+		//lamada a la funcion de consulta de persona individual
+		consultaPersona();
 	} catch (Exception $e) {
 		$errores = $e->getMessage();
 	}
@@ -25,12 +40,6 @@ if (isset($_POST['alta'])) {
 //MODIFICACION
 
 //BAJA
-
-//CONSULTA DE UNA PERSONA DE LA TABLA
-
-
-
-
 
 ?>
 
@@ -106,10 +115,10 @@ if (isset($_POST['alta'])) {
 		</form><br><br>
 
 		<table id='listapersonas' class="table table-striped">
-			<tr data-id='idpersona'>
-				<td>NIF</td>
-				<td>Nombre</td>
-				<td>Apellidos</td>
+			<tr>
+				<th>NIF</th>
+				<th>Nombre</th>
+				<th>Apellidos</th>
 			</tr>
 
 			<!--CONSULTA DE TODAS LAS PERSONAS-->
