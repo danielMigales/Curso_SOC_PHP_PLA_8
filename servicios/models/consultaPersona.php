@@ -44,7 +44,7 @@ function consultaPersona()
     $nif = $persona['nif'];
     $nombre = $persona['nombre'];
     $apellidos = $persona['apellidos'];
-    $direccion = $persona['direccion'];
+    $direccion = addslashes($persona['direccion']);
     $telefono = $persona['telefono'];
     $email = $persona['email'];
 }

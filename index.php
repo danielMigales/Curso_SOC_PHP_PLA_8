@@ -6,14 +6,17 @@ $errores = null;
 $nif = $nombre = $apellidos = $direccion = $telefono = $email = null;
 
 //conexion a la bbdd
-require 'conexion.php';
+require 'servicios/models/conexion.php';
 //fichero con funcion de validacion e insert SQL
-require 'altaPersona.php';
+require 'servicios/models/altaPersona.php';
 //fichero con funcion de consulta de todos los datos de la tabla personas de la BBDD
-require 'consultaPersonas.php';
+require 'servicios/models/consultaPersonas.php';
 //fichero con funcion de consulta de una persona de la tabla personas de la BBDD
-require 'consultaPersona.php';
-
+require 'servicios/models/consultaPersona.php';
+//fichero con funcion de modificacion de una persona seleccionada de la tabla personas de la BBDD
+require 'servicios/models/modificarPersona.php';
+//fichero con funcion de borrado de una persona seleccionada de la tabla personas de la BBDD
+require 'servicios/models/bajaPersona.php';
 
 //ALTA
 //detectar pulsacion de boton alta
@@ -38,10 +41,30 @@ if (isset($_POST['consulta'])) {
 }
 
 //MODIFICACION
+//detectar pulsacion de boton modificar
+if (isset($_POST['modificar'])) {
+	try {
+		//llamada a la funcion de modificacion de personas
+		modificarPersona();
+	} catch (Exception $e) {
+		$errores = $e->getMessage();
+	}
+}
 
 //BAJA
+//detectar pulsacion de boton baja
+if (isset($_POST['baja'])) {
+	try {
+		//llamada a la funcion de baja de personas
+		bajaPersona();
+	} catch (Exception $e) {
+		$errores = $e->getMessage();
+	}
+}
 
 ?>
+
+<!--INICIO DEL DOCUMENTO HTML-->
 
 <html>
 
@@ -49,7 +72,7 @@ if (isset($_POST['consulta'])) {
 	<title>Banco</title>
 	<meta charset='UTF-8'>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="css/estilos.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/estilos.css">
 </head>
 
 <body>
@@ -131,7 +154,7 @@ if (isset($_POST['consulta'])) {
 		<input type='hidden' id='consulta' name='consulta'>
 	</form>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	<script type="text/javascript" src='scripts/script.js'></script>
+	<script type="text/javascript" src='assets/scripts/script.js'></script>
 </body>
 
 </html>
