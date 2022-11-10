@@ -49,18 +49,23 @@ function altaPersona()
             $errores .= 'Introduzca un email valido.' . '<br>';
         }
 
-        //si $errores tiene algun mensaje lanza excepcion. En caso contrario inserta los datos en la bbdd
+        //si $errores tiene algun mensaje lanza excepcion. 
         if ($errores != null) {
             throw new Exception($errores);
-        } else {
+        }
+
+        //En caso contrario inserta los datos en la bbdd
+        if ($errores == null) {
             try {
                 $sql = "INSERT INTO $tabla VALUES (NULL, '$nif', '$nombre', '$apellidos','$direccion', '$telefono', '$email', CURRENT_TIMESTAMP);";
 
                 if (!mysqli_query($conexionBanco, $sql)) {
                     if ($conexionBanco->errno == 1062) {
+                        //ESTO NO LO LLEGA A IMPRIMIR NUNCA. SIEMPRE SALE: Duplicate entry 'numero introducido' for key 'nif'
                         throw new Exception("El nif ya existe en la base de datos");
+                    } else {
+                        echo ($conexionBanco->error);
                     }
-                    throw new Exception($conexionBanco->error, $conexionBanco->errno);
                 }
 
                 $errores .= 'Se ha insertado el registro en personas';
