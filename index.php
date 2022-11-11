@@ -2,7 +2,6 @@
 //inicializar variables
 $errores = null;
 $tablaHTML = null;
-$id = null;
 
 //inputs del formulario
 $nif = $nombre = $apellidos = $direccion = $telefono = $email = null;
@@ -141,9 +140,6 @@ consultaPersonas();
 
 			<label class="col-sm-2 col-form-label"></label>
 			<p class='mensajes'><?= $errores ?></p>
-
-			<!--CAMBIAR ESTE APAÑO Y QUITAR LAS VARIABLES GLOBALES-->
-			<input type="text" class="form-control" id="idpersona" name="idpersona" value='<?= $id ?>'>
 
 		</form><br><br>
 

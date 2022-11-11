@@ -4,23 +4,21 @@
 function bajaPersona()
 {
 
-    global $nif, $nombre, $apellidos, $direccion, $telefono, $email, $errores, $conexionBanco, $id;
+    global $nif, $nombre, $apellidos, $direccion, $telefono, $email, $errores, $conexionBanco;
     $sql = null;
     $tabla = 'personas';
 
     try {
-        //PERFECCIONAR ESTE APARTADO DEL ID       
+     
         //recuperar y validar de el campo id 
-        if (!$id = filter_input(INPUT_POST, 'idpersona')) {
-            $errores .= "id no puede estar vacio." . '<br>';
-        }
+         $id = $_SESSION['idpersona'];
+
         if (!is_numeric($id)) {
             $errores .= "id ha de ser numerico." . '<br>';
         }
         if ($id <= 0) {
             $errores .= "id ha de ser un valor positivo." . '<br>';
         }
-
 
         //recuperar nif
         if (!$nif = filter_input(INPUT_POST, 'nif', FILTER_SANITIZE_ADD_SLASHES)) {

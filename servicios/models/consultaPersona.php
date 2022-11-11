@@ -1,9 +1,13 @@
 <?php
 
+//variable de sesion para guardar el id de la persona seleccionada y poder pasarlo a todo el documento
+session_start();
+$_SESSION["idpersona"];
+
 //validar campos de la tabla listado de personas y envio de consulta a la bbdd
 function consultaPersona()
 {
-    global  $nif, $nombre, $apellidos, $direccion, $telefono, $email, $errores, $conexionBanco, $id;
+    global  $nif, $nombre, $apellidos, $direccion, $telefono, $email, $errores, $conexionBanco;
     $sql = null;
     $tabla = 'personas';
 
@@ -41,4 +45,7 @@ function consultaPersona()
     $direccion = addslashes($persona['direccion']);
     $telefono = $persona['telefono'];
     $email = $persona['email'];
+
+    //asignar el valor del id a la sesion
+    $_SESSION["idpersona"] = $id;
 }

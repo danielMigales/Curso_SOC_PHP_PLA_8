@@ -7,7 +7,7 @@ function consultaPersonas()
     global $conexionBanco, $errores, $tablaHTML;
 
     //sentencia con el resultado ordenado por nombre
-    $sql = "SELECT * FROM $tabla ORDER BY nombre";
+    $sql = "SELECT * FROM $tabla ORDER BY nombre, apellidos";
 
     //objeto con los resultados
     $result = mysqli_query($conexionBanco, $sql) or die(mysqli_error($conexionBanco));
