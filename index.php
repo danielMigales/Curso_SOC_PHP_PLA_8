@@ -1,6 +1,8 @@
 <?php
 //inicializar variables
 $errores = null;
+$tablaHTML = null;
+$id = null;
 
 //inputs del formulario
 $nif = $nombre = $apellidos = $direccion = $telefono = $email = null;
@@ -42,7 +44,7 @@ if (isset($_POST['consulta'])) {
 
 //MODIFICACION
 //detectar pulsacion de boton modificar
-if (isset($_POST['modificar'])) {
+if (isset($_POST['modificacion'])) {
 	try {
 		//llamada a la funcion de modificacion de personas
 		modificarPersona();
@@ -61,6 +63,11 @@ if (isset($_POST['baja'])) {
 		$errores = $e->getMessage();
 	}
 }
+
+//CONSULTA DE TODAS LAS PERSONAS
+//llamada al metodo de consultaPersonas.php
+consultaPersonas();
+
 
 ?>
 
@@ -135,6 +142,9 @@ if (isset($_POST['baja'])) {
 			<label class="col-sm-2 col-form-label"></label>
 			<p class='mensajes'><?= $errores ?></p>
 
+			<!--CAMBIAR ESTE APAÑO Y QUITAR LAS VARIABLES GLOBALES-->
+			<input type="text" class="form-control" id="idpersona" name="idpersona" value='<?= $id ?>'>
+
 		</form><br><br>
 
 		<table id='listapersonas' class="table table-striped">
@@ -144,9 +154,8 @@ if (isset($_POST['baja'])) {
 				<th>Apellidos</th>
 			</tr>
 
-			<!--CONSULTA DE TODAS LAS PERSONAS-->
-			<!--leer la base de datos y crear tabla-->
-			<?= consultaPersonas(); ?>
+			<!--imprimir la variable que tiene la tabla generada en el metodo consulta-->
+			<?= $tablaHTML ?>
 
 		</table>
 	</div>
