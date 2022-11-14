@@ -1,7 +1,8 @@
 <?php
 //inicializar variables
-$errores = null;
-$tablaHTML = null;
+$errores = null; //variable para mensajes 
+$tablaHTML = null; //tabla para reflejar los datos de la base de datos
+$idpersona = null; //variable para guardar el id de la persona
 
 //inputs del formulario
 $nif = $nombre = $apellidos = $direccion = $telefono = $email = null;
@@ -18,55 +19,47 @@ require 'servicios/models/consultaPersona.php';
 require 'servicios/models/modificarPersona.php';
 //fichero con funcion de borrado de una persona seleccionada de la tabla personas de la BBDD
 require 'servicios/models/bajaPersona.php';
+//fichero con funcion de validacion de formulario
+require 'servicios/models/validarFormulario.php';
+//fichero con funcion de validacion idpersona
+require 'servicios/models/validarIDpersona.php';
+//fichero con funcion de validacion idpersona obtenida de la variable de sesion
+require 'servicios/models/validarIDpersonaSesion.php';
+
+//inicio de sesion
+session_start();
 
 //ALTA
 //detectar pulsacion de boton alta
 if (isset($_POST['alta'])) {
-	try {
-		//llamada a la funcion de alta de personas
-		altaPersona();
-	} catch (Exception $e) {
-		$errores = $e->getMessage();
-	}
+	//llamada a la funcion de alta de personas
+	altaPersona();
 }
 
 //CONSULTA DE UNA PERSONA DE LA TABLA
 //detectar pulsacion de un registro de la tabla
 if (isset($_POST['consulta'])) {
-	try {
-		//lamada a la funcion de consulta de persona individual
-		consultaPersona();
-	} catch (Exception $e) {
-		$errores = $e->getMessage();
-	}
+	//lamada a la funcion de consulta de persona individual
+	consultaPersona();
 }
 
 //MODIFICACION
 //detectar pulsacion de boton modificar
 if (isset($_POST['modificacion'])) {
-	try {
-		//llamada a la funcion de modificacion de personas
-		modificarPersona();
-	} catch (Exception $e) {
-		$errores = $e->getMessage();
-	}
+	//llamada a la funcion de modificacion de personas
+	modificarPersona();
 }
 
 //BAJA
 //detectar pulsacion de boton baja
 if (isset($_POST['baja'])) {
-	try {
-		//llamada a la funcion de baja de personas
-		bajaPersona();
-	} catch (Exception $e) {
-		$errores = $e->getMessage();
-	}
+	//llamada a la funcion de baja de personas
+	bajaPersona();
 }
 
 //CONSULTA DE TODAS LAS PERSONAS
 //llamada al metodo de consultaPersonas.php
 consultaPersonas();
-
 
 ?>
 
@@ -83,76 +76,61 @@ consultaPersonas();
 
 <body>
 	<div class='container'>
-
 		<form id='formulario' method='post' action='#'>
-
 			<input type='hidden' id='idpersona' name='idpersona'>
-
 			<!--añadida variable en los valores de los inputs-->
-
 			<div class="row mb-3">
 				<label for="nif" class="col-sm-2 col-form-label">NIF</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="nif" name='nif' value='<?= $nif ?>'>
 				</div>
 			</div>
-
 			<div class="row mb-3">
 				<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="nombre" name="nombre" value='<?= $nombre ?>'>
 				</div>
 			</div>
-
 			<div class="row mb-3">
 				<label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="apellidos" name="apellidos" value='<?= $apellidos ?>'>
 				</div>
 			</div>
-
 			<div class="row mb-3">
 				<label for="direccion" class="col-sm-2 col-form-label">Dirección</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="direccion" name="direccion" value='<?= $direccion ?>'>
 				</div>
 			</div>
-
 			<div class="row mb-3">
 				<label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="telefono" name="telefono" value='<?= $telefono ?>'>
 				</div>
 			</div>
-
 			<div class="row mb-3">
 				<label for="email" class="col-sm-2 col-form-label">Email</label>
 				<div class="col-sm-10">
 					<input type="email" class="form-control" id="email" name="email" value='<?= $email ?>'>
 				</div>
 			</div>
-
 			<label class="col-sm-2 col-form-label"></label>
 			<button type="submit" class="btn btn-success" id='alta' name='alta'>Alta</button>
 			<button type="submit" class="btn btn-warning" id='modificacion' name='modificacion'>Modificación</button>
 			<button type="submit" class="btn btn-danger" id='baja' name='baja'>Baja</button>
 			<button type="reset" class="btn btn-success">Limpiar</button>
-
 			<label class="col-sm-2 col-form-label"></label>
 			<p class='mensajes'><?= $errores ?></p>
-
 		</form><br><br>
-
 		<table id='listapersonas' class="table table-striped">
 			<tr>
 				<th>NIF</th>
 				<th>Nombre</th>
 				<th>Apellidos</th>
 			</tr>
-
 			<!--imprimir la variable que tiene la tabla generada en el metodo consulta-->
 			<?= $tablaHTML ?>
-
 		</table>
 	</div>
 	<form id='formconsulta' method='post' action='#'>
